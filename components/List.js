@@ -3,7 +3,8 @@ import { Text, View, FlatList, TouchableOpacity, AsyncStorage } from "react-nati
 import { MaterialIcons } from "@expo/vector-icons";
 import { ListItem } from "react-native-elements";
 import { connect } from "react-redux";
-import MyLibrary  from '../MyLibrary'
+import { compose } from 'redux'
+import { firebaseConnect } from 'react-redux-firebase'
 
 import { getListAction, initDBAction } from "../Redux/modules/list";
 import Navigation from "./Navigation";
@@ -30,17 +31,16 @@ class List extends React.Component {
     const color = await AsyncStorage.getItem("color");
     const fontSize = await AsyncStorage.getItem("fontSize");
     await this.setState({ color, fontSize });
-    console.log('MyLibrary :', MyLibrary);
   }
 
 
   render() {
-    const { navigation, list } = this.props;
+    const { navigation, list, firebaseList } = this.props;
     return (
       <View style={{...Container, backgroundColor: this.state.color}}>
         <Navigation navigation={navigation} title={"Lista Zakupów"} />
         <FlatList
-          data={list}
+          data={firebaseList}
           renderItem={({ item }) => (
             <ListItem
               containerStyle={item.isBought && { backgroundColor: "#d6eda1" }}
@@ -66,11 +66,15 @@ class List extends React.Component {
 
 function mapStateToProps(state) {
   return {
-    list: state.list.list
+    list: state.list.list,
+    firebaseList : state.firebase.data.list,
   };
 }
 
-export default connect(
-  mapStateToProps,
-  { getListAction, initDBAction }
-)(List);
+export default compose(
+  firebaseConnect((props) => ['list']),
+  connect(
+    mapStateToProps,
+    { getListAction, initDBAction }
+  )
+)(List)
