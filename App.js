@@ -30,7 +30,7 @@ const Drawer = createDrawerNavigator(
     drawerPosition: "right"
   }
 );
-
+//SMB-1 SQLITE
 export default class App extends React.Component {
   render() {
     return (
