@@ -4,7 +4,7 @@ import { reduxForm, Field } from "redux-form";
 import { connect } from "react-redux";
 import { Button } from "react-native-elements";
 
-import { addItemAction } from "../Redux/modules/list";
+import { addItemAction, addFirebase } from "../Redux/modules/list";
 import { Container } from "../Styles/index";
 import Navigation from "./Navigation";
 import TextInput from "../Fields/TextInput";
@@ -40,6 +40,7 @@ class Add extends React.Component {
 
   handleSubmit = async (data) => {
     this.props.addItemAction(data)
+    this.props.addFirebase(data)
     this.props.navigation.navigate("Lista")
   };
 
@@ -54,4 +55,4 @@ class Add extends React.Component {
   }
 }
 
-export default connect(null, {addItemAction})(Add);
+export default connect(null, {addItemAction, addFirebase})(Add);

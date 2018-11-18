@@ -50,6 +50,12 @@ export function addItemAction(data) {
   };
 }
 
+export const addFirebase = (data) =>
+  (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase()
+    firebase.push('list', {...data, isBought : 0, id : 10})
+  };
+
 export function editItemAction(data) {
   return async dispatch => {
     await updateItem(data);

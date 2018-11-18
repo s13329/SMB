@@ -36,11 +36,17 @@ class List extends React.Component {
 
   render() {
     const { navigation, list, firebaseList } = this.props;
+    console.log('firebaseList :', firebaseList);
+    const newArr = [];
+
+    firebaseList && Object.keys(firebaseList).map( (key,index)=>{
+        newArr.push(firebaseList[key]);
+    });
     return (
       <View style={{...Container, backgroundColor: this.state.color}}>
         <Navigation navigation={navigation} title={"Lista Zakupów"} />
         <FlatList
-          data={firebaseList}
+          data={newArr}
           renderItem={({ item }) => (
             <ListItem
               containerStyle={item.isBought && { backgroundColor: "#d6eda1" }}
