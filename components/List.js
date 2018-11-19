@@ -1,15 +1,20 @@
 import React from "react";
-import { Text, View, FlatList, TouchableOpacity, AsyncStorage } from "react-native";
+import {
+  Text,
+  View,
+  FlatList,
+  TouchableOpacity,
+  AsyncStorage
+} from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { ListItem } from "react-native-elements";
 import { connect } from "react-redux";
-import { compose } from 'redux'
-import { firebaseConnect } from 'react-redux-firebase'
+import { compose } from "redux";
+import { firebaseConnect } from "react-redux-firebase";
 
 import { getListAction, initDBAction } from "../Redux/modules/list";
 import Navigation from "./Navigation";
 import { Container } from "../Styles/index";
-
 
 const addButton = {
   position: "absolute",
@@ -25,7 +30,7 @@ class List extends React.Component {
   };
 
   async componentDidMount() {
-    await this.props.initDBAction()
+    await this.props.initDBAction();
     await this.props.getListAction();
 
     const color = await AsyncStorage.getItem("color");
@@ -33,20 +38,24 @@ class List extends React.Component {
     await this.setState({ color, fontSize });
   }
 
-
   render() {
     const { navigation, list, firebaseList } = this.props;
-//console.log('firebaseList :', firebaseList);
-    const newArr = [];
 
-    firebaseList && Object.keys(firebaseList).map( (key,index)=>{
-        newArr.push(firebaseList[key]);
-    });
+    let testArr = [];
+
+    if(firebaseList){
+      firebaseList &&
+      Object.keys(firebaseList).map((key, index) => {
+        const obj = {...firebaseList[key], key : key}
+        testArr.push(obj);
+      });
+    }
+
     return (
-      <View style={{...Container, backgroundColor: this.state.color}}>
+      <View style={{ ...Container, backgroundColor: this.state.color }}>
         <Navigation navigation={navigation} title={"Lista Zakupów"} />
         <FlatList
-          data={newArr}
+          data={testArr}
           renderItem={({ item }) => (
             <ListItem
               containerStyle={item.isBought && { backgroundColor: "#d6eda1" }}
@@ -73,14 +82,14 @@ class List extends React.Component {
 function mapStateToProps(state) {
   return {
     list: state.list.list,
-    firebaseList : state.firebase.data.list,
+    firebaseList: state.firebase.data.list
   };
 }
 
 export default compose(
-  firebaseConnect((props) => ['list']),
+  firebaseConnect(props => ["list"]),
   connect(
     mapStateToProps,
     { getListAction, initDBAction }
   )
-)(List)
+)(List);

@@ -9,7 +9,7 @@ import Navigation from "./Navigation";
 import TextInput from "../Fields/TextInput";
 import Slider from "../Fields/Slider";
 import Checkbox from "../Fields/Checkbox";
-import { removeItemAction, editItemAction } from "../Redux/modules/list";
+import { removeItemAction, editItemAction, updateFirebase, removeFirebase } from "../Redux/modules/list";
 
 
 let EditForm = props => (
@@ -50,17 +50,17 @@ class Add extends React.Component {
   state = {};
 
   handleRemove = () => {
-    const id = this.props.navigation.state.params.key.id;
+    const id = this.props.navigation.state.params.key.key;
 
-    this.props.removeItemAction(id)
+    this.props.removeFirebase(id)
     this.props.navigation.navigate("Lista");
   };
 
   handleSubmit = async (data) => {
-    const id = this.props.navigation.state.params.key.id;
+    const id = this.props.navigation.state.params.key.key;
     const newValue = data.isBought ? 1 : 0;
 
-    this.props.editItemAction({...data, id, newValue})
+    this.props.updateFirebase({...data, id, newValue})
     this.props.navigation.navigate("Lista");
   };
 
@@ -87,4 +87,4 @@ class Add extends React.Component {
   }
 }
 
-export default connect(null, {editItemAction, removeItemAction})(Add);
+export default connect(null, {editItemAction, removeItemAction, updateFirebase, removeFirebase})(Add);

@@ -11,12 +11,13 @@ import Login from "./components/Login";
 
 const Drawer = createDrawerNavigator(
   {
-    Login: {
-      screen: Login
-    },
     Lista: {
       screen: List
     },
+    Login: {
+      screen: Login
+    },
+   
     Dodaj: {
       screen: Add
     },

@@ -23,7 +23,6 @@ LoginForm = reduxForm({ form: "loginForm" })(LoginForm);
 class Login extends React.Component {
   state = { email: "", password: "", errorMessage: null };
   handleLogin = async data => {
-    console.log("data :", data);
     try {
       await this.props.loginAction(data);
       this.props.navigation.navigate("Lista")

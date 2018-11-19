@@ -50,21 +50,41 @@ export function addItemAction(data) {
   };
 }
 
-export const addFirebase = (data) =>
-  (dispatch, getState, getFirebase) => {
-    const firebase = getFirebase()
-    console.log('firebase :', firebase);
-    firebase.push('list', {...data, isBought : 0, id : 10})
-  };
+export const addFirebase = data => (dispatch, getState, getFirebase) => {
+  const firebase = getFirebase();
+  firebase.push("list", { ...data, isBought: 0, id: 0 });
+};
 
-  export const loginAction = ({login, password}) =>
-  async (dispatch, getState, getFirebase) => {
-    const firebase = getFirebase()
-      await firebase.login({
-        email: `${login}`,
-        password: `${password}`
-      })
-  };
+export const updateFirebase = data => (dispatch, getState, getFirebase) => {
+  const firebase = getFirebase();
+  firebase
+    .ref("list/" + data.key)
+    .set({
+      name: data.name,
+      quantity: data.quantity,
+      price : data.price,
+      isBought: data.isBought
+    });
+};
+
+export const removeFirebase = key => (dispatch, getState, getFirebase) => {
+  const firebase = getFirebase();
+  firebase
+    .remove("list/" + key)
+};
+
+export const loginAction = ({ login, password }) => async (
+  dispatch,
+  getState,
+  getFirebase
+) => {
+  const firebase = getFirebase();
+  console.log('firebase :', firebase);
+  await firebase.login({
+    email: `${login}`,
+    password: `${password}`
+  });
+};
 
 export function editItemAction(data) {
   return async dispatch => {
