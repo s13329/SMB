@@ -18,13 +18,16 @@ firebase.initializeApp(firebaseConfig);
 
 // react-redux-firebase options
 const config = {
-  userProfile: "users", // firebase root where user profiles are stored
-  enableLogging: false // enable/disable Firebase's database logging
+  userProfile: 'users', // firebase root where user profiles are stored
+  attachAuthIsReady: true, // attaches auth is ready promise to store
+  firebaseStateName: 'firebase' // should match the reducer name ('firebase' is default)
 };
 
 /* const createStoreWithMiddleware = applyMiddleware(
   reduxThunk,
 )(createStore);
+
+
 
 const store = createStoreWithMiddleware(reducers); */
 const store = createStore(

@@ -53,7 +53,17 @@ export function addItemAction(data) {
 export const addFirebase = (data) =>
   (dispatch, getState, getFirebase) => {
     const firebase = getFirebase()
+    console.log('firebase :', firebase);
     firebase.push('list', {...data, isBought : 0, id : 10})
+  };
+
+  export const loginAction = ({login, password}) =>
+  async (dispatch, getState, getFirebase) => {
+    const firebase = getFirebase()
+      await firebase.login({
+        email: `${login}`,
+        password: `${password}`
+      })
   };
 
 export function editItemAction(data) {

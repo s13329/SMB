@@ -36,7 +36,7 @@ class List extends React.Component {
 
   render() {
     const { navigation, list, firebaseList } = this.props;
-    console.log('firebaseList :', firebaseList);
+//console.log('firebaseList :', firebaseList);
     const newArr = [];
 
     firebaseList && Object.keys(firebaseList).map( (key,index)=>{
